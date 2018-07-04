@@ -70,6 +70,17 @@ Player.prototype.handleInput = function(keyPress) {
 };
 
 // Now instantiate your objects.
+//increaseLevel
+var increaseLevel = function(numBugs){
+    //remove all the bugs
+    allEnemies.length = 0
+
+    for(var i = 0; i < numBugs; i++){
+        var enemy = new Enemy(0, Math.random() * 180 + 60, Math.random() * 256);
+        allEnemies.push(enemy);
+    };
+};
+
 // Place the player object in a variable called player
 var allEnemies = [];
 var player = new Player(200, 400, 105);
