@@ -25,6 +25,7 @@ Enemy.prototype.update = function(dt) {
 
 var checkCollision = function(bug) {
     // check for collision
+    // enemy-player collision resets the game
     if (player.y + 130 >= bug.y + 90 &&
         player.x + 25 <= bug.x + 88 &&
         player.y + 70 <= bug.y + 135 &&
@@ -34,6 +35,7 @@ var checkCollision = function(bug) {
         player.lives < 0 ? player.lives = 0 : false;
         player.x = 200;
         player.y = 400;
+        increaseLevel(3);
     }
 
     //increase score
@@ -117,13 +119,35 @@ var increaseLevel = function(numBugs) {
     };
 };
 
+// collectible items on screen
+function Collectible(x, y){
+    this.x = x;
+    this.y = y;
+    this.sprite = 'images/Key.png';
+};
+
+Collectible.prototype.render = function(){
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+Collectible.prototype.update = function(){
+    if (
+        (player.y <= key.y && player.y >= key.y) &&
+        (player.x <= key.x && player.x >= key.x)) {
+            key.x = initialXPosition[Math.floor(Math.random() * 5)];
+            key.y = initialYPosition[Math.floor(Math.random() * 3)];
+        }
+}
+
+
 // Place the player object in a variable called player
 var player = new Player(200, 400, 105);
 
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
 var initialYPosition = [60, 145, 230];
-var enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)], Math.random() * 256);
+var initialXPosition = [-10, 95, 200, 305, 410];
+var enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)], initialXPosition[Math.floor(Math.random() * 4)]);
+var key = new Collectible(200, initialYPosition[Math.floor(Math.random() * 3)]);
 allEnemies.push(enemy);
 increaseLevel(3);
 
