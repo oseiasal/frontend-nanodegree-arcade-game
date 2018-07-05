@@ -1,13 +1,8 @@
 // Enemies our player must avoid
 var Enemy = function(x, y, veloc) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
     this.x = x;
     this.y = y;
     this.speed = veloc;
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 };
 
@@ -22,8 +17,35 @@ Enemy.prototype.update = function(dt) {
     if (this.x >= 505) {
         this.x = 0;
     }
+    checkCollision(this);
 
 };
+
+var checkCollision = function(bug) {
+    // check for collision
+    if (player.y + 130 >= bug.y + 90
+        && player.x + 25 <= bug.x + 88
+        && player.y + 70 <= bug.y + 135
+        && player.x + 76 >= bug.x + 10) {
+        console.log('Beteu!!!');
+        player.x = 200;
+        player.y = 400;
+    }
+
+    // check for limits
+
+    if (player.y  < 50 || player.y > 400) {
+        player.y = 400;
+    }
+    if (player.x > 410){
+        player.x = 410;
+    }
+    if (player.x < -10 ){
+        player.x = -10;
+    }
+
+
+ }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -66,28 +88,28 @@ Player.prototype.handleInput = function(keyPress) {
     if (keyPress == 'down') {
         player.y += player.speed - 20;
     }
-    console.log('keyPress is: ' + keyPress);
 };
 
-// Now instantiate your objects.
-//increaseLevel
+// A função cria novas instancias de objetos
 var increaseLevel = function(numBugs){
     //remove all the bugs
     allEnemies.length = 0
 
     for(var i = 0; i < numBugs; i++){
-        var enemy = new Enemy(0, Math.random() * 180 + 60, Math.random() * 256);
+        enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)], Math.random() * 256);
         allEnemies.push(enemy);
     };
 };
 
 // Place the player object in a variable called player
-var allEnemies = [];
 var player = new Player(200, 400, 105);
 
 // Place all enemy objects in an array called allEnemies
-var enemy = new Enemy(0, Math.random() * 180 + 60, Math.random() * 256);
+var allEnemies = [];
+var initialYPosition = [60, 145, 230];
+var enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)], Math.random() * 256);
 allEnemies.push(enemy);
+// increaseLevel(3);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
