@@ -160,7 +160,7 @@ var Engine = (function(global) {
         player.render();
         player.renderStatus();
 
-        allCollectible.forEach(function(enemy) {
+        allCollectible.forEach(function(key) {
             key.render();
         });
 

@@ -60,23 +60,29 @@ var Player = function(x, y, veloc) {
 // This class requires an update(), render() and
 // a handleInput() method.
 Player.prototype.update = function() {
+
+    const maxBoardX = 400;
+    const minBoardX = -10;
+    const maxBoardY = 410;
+    const minBoardY = 50;
+
     //If player die, all enemy stop
-    if (player.lives == 0) {
+    if (this.lives == 0) {
         clearAll(true, false);
     }
     // Checar fronteiras
-    if (player.y < 50) {
-        player.y = 400;
-        player.score += 1
+    if (this.y < minBoardY) {
+        this.y = maxBoardX;
+        this.score += 1
         console.log(`Chegou até a água!!`);
     }
-    if (player.y > 410) {
-        player.y = 400;
+    if (this.y > maxBoardY) {
+        this.y = maxBoardX;
     }
-    if (player.x > 410) {
-        player.x = 410;
-    } else if (player.x < -10) {
-        player.x = -10;
+    if (this.x > maxBoardY) {
+        this.x = maxBoardY;
+    } else if (this.x < minBoardX) {
+        this.x = minBoardX;
     }
 }
 
@@ -132,11 +138,16 @@ Collectible.prototype.render = function() {
 }
 
 Collectible.prototype.update = function() {
+    collect(this);
+}
+
+function collect(coleta){
+
     if (
-        (player.y <= key.y && player.y >= key.y) &&
-        (player.x <= key.x && player.x >= key.x)) {
-        key.x = initialXPosition[Math.floor(Math.random() * 5)];
-        key.y = initialYPosition[Math.floor(Math.random() * 3)];
+        (player.y <= coleta.y && player.y >= coleta.y) &&
+        (player.x <= coleta.x && player.x >= coleta.x)) {
+        coleta.x = initialXPosition[Math.floor(Math.random() * 5)];
+        coleta.y = initialYPosition[Math.floor(Math.random() * 3)];
 
         // ememies go to beginning X position
         (function() {
@@ -169,23 +180,24 @@ function clearAll(stop, removeKey) {
 }
 
 // Place the player object in a variable called player
-var player = new Player(200, 400, 105);
+let player = new Player(200, 400, 105);
 
 // Place all enemy objects in an array called allEnemies
-var allEnemies = [];
-var allCollectible = [];
-var initialYPosition = [60, 145, 230];
-var initialXPosition = [-10, 95, 200, 305, 410];
-var enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)],
+let allEnemies = [];
+let allCollectible = [];
+const initialYPosition = [60, 145, 230];
+const initialXPosition = [-10, 95, 200, 305, 410];
+let enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)],
     initialXPosition[Math.floor(Math.random() * 4)]);
-var key = new Collectible(200, initialYPosition[Math.floor(Math.random() * 3)]);
+let key = new Collectible(initialXPosition[Math.floor(Math.random() * 5)],
+    initialYPosition[Math.floor(Math.random() * 3)]);
 allCollectible.push(key);
 increaseLevel(5);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
+    const allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',
