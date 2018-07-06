@@ -1,6 +1,31 @@
-frontend-nanodegree-arcade-game
-===============================
+# Arcade Frog Game
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+- ### Indice
+ 1. [Como jogar](#como-jogar)
+ 2. [Dependencias](#dependencias)
+ 3. [Referências](#referências)
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## Como jogar
+ **Regras**
+
+ - Para jogar, basta abrir ou **recarregar** a página.
+ - O jogo começa com 5 joaninhas atravessando a tela.
+ - Para mover o personagem, basta utilizar as teclas de direção (`left`, `up`,`down`,`right`).
+ - Ao bater nos inimigos, o total de vidas é decrementado.
+ - Ao pegar uma chave, um inimigo some do jogo
+ - Quando todos os inimigos sumirem, a **chave** some e o jogo precisa ser reiniciado através do **recarregamento** da página.
+ - Se o personagem bater varias vezes no inimigo e zerar a quantidade de (3) vidas, os inimigos ficaram agrupados nas 3 primeiras fileiras (independente da quantidade, se tiver mais de 3 inimigos, um ficará sobre o outro).
+
+ ![screenshot do frog game](images/screenshot.png)
+
+## Dependencias
+Este jogo roda graças ao elemento `<canvas>` ([MDN Web Docs: Canvas](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Canvas)), presente no HTML5.
+
+Para  manipular o `<canvas>`, foi utilizado os arquivos da pasta *js*, nos quais:
+
+- app.js é o responsável pela criação do conteúdo, incluindo as classes dos objetos e o controle do teclado.
+- engine.js é o responsável pela renderização e pela criação do conteúdo de app.js e resources.js.
+- resources.js cuida da parte de carregamento das imagens, para não precisar carregar essas imagens toda hora.
+
+## Referências
+http://udacity.com
