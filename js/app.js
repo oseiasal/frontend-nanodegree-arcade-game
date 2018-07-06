@@ -37,9 +37,6 @@ var checkCollision = function(bug) {
         player.y = 400;
     }
 
-    //increase score
-    //player.y < 50 ? player.score += 1 : false;
-
 }
 
 // Draw the enemy on the screen, required method for game
@@ -123,7 +120,7 @@ var increaseLevel = function(numBugs) {
     };
 };
 
-// collectible items on screen
+// collectible class items on screen
 function Collectible(x, y) {
     this.x = x;
     this.y = y;
@@ -182,7 +179,6 @@ var initialXPosition = [-10, 95, 200, 305, 410];
 var enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)],
     initialXPosition[Math.floor(Math.random() * 4)]);
 var key = new Collectible(200, initialYPosition[Math.floor(Math.random() * 3)]);
-//allEnemies.push(enemy);
 allCollectible.push(key);
 increaseLevel(5);
 
