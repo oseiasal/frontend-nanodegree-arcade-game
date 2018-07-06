@@ -35,23 +35,10 @@ var checkCollision = function(bug) {
         player.lives < 0 ? player.lives = 0 : false;
         player.x = 200;
         player.y = 400;
-        increaseLevel(3);
     }
 
     //increase score
-    player.y < 50 ? player.score += 1 : false;
-
-    // check for limits
-    if (player.y < 50 || player.y > 400) {
-        player.y = 400;
-        console.log(player.y);
-    }
-
-    if (player.x > 410) {
-        player.x = 410;
-    } else if (player.x < -10) {
-        player.x = -10;
-    }
+    //player.y < 50 ? player.score += 1 : false;
 
 }
 
@@ -76,7 +63,24 @@ var Player = function(x, y, veloc) {
 // This class requires an update(), render() and
 // a handleInput() method.
 Player.prototype.update = function() {
-    // not important
+    //If player die, all enemy stop
+    if (player.lives == 0) {
+        clearAll(true, false);
+    }
+    // Checar fronteiras
+    if (player.y < 50) {
+        player.y = 400;
+        player.score += 1
+        console.log(`Chegou até a água!!`);
+    }
+    if (player.y > 410) {
+        player.y = 400;
+    }
+    if (player.x > 410) {
+        player.x = 410;
+    } else if (player.x < -10) {
+        player.x = -10;
+    }
 }
 
 Player.prototype.render = function() {
@@ -114,42 +118,73 @@ var increaseLevel = function(numBugs) {
     allEnemies.length = 0
 
     for (var i = 0; i < numBugs; i++) {
-        enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)], Math.random() * 256);
+        enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)], Math.random() * 256 + 40);
         allEnemies.push(enemy);
     };
 };
 
 // collectible items on screen
-function Collectible(x, y){
+function Collectible(x, y) {
     this.x = x;
     this.y = y;
     this.sprite = 'images/Key.png';
 };
 
-Collectible.prototype.render = function(){
+Collectible.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
-Collectible.prototype.update = function(){
+
+Collectible.prototype.update = function() {
     if (
         (player.y <= key.y && player.y >= key.y) &&
         (player.x <= key.x && player.x >= key.x)) {
-            key.x = initialXPosition[Math.floor(Math.random() * 5)];
-            key.y = initialYPosition[Math.floor(Math.random() * 3)];
-        }
+        key.x = initialXPosition[Math.floor(Math.random() * 5)];
+        key.y = initialYPosition[Math.floor(Math.random() * 3)];
+
+        // ememies go to beginning X position
+        (function() {
+            allEnemies.pop();
+            if (allEnemies.length == 0) {
+                clearAll(false, true);
+            }
+        }());
+    }
 }
 
+// Clear All
+function clearAll(stop, removeKey) {
+    // Para os carrinhos e os organiza
+    if (stop) {
+        for (var i = 0; i < allEnemies.length; i++) {
+            allEnemies[i].x = 0;
+            allEnemies[i].y = initialYPosition[i];
+            allEnemies[i].speed = 0;
+        }
+        return `Cars stoped`;
+
+    }
+    // Remove a chave
+    else if (removeKey) {
+        allCollectible.pop();
+        return `Remove Key`;
+    }
+
+}
 
 // Place the player object in a variable called player
 var player = new Player(200, 400, 105);
 
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
+var allCollectible = [];
 var initialYPosition = [60, 145, 230];
 var initialXPosition = [-10, 95, 200, 305, 410];
-var enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)], initialXPosition[Math.floor(Math.random() * 4)]);
+var enemy = new Enemy(-100, initialYPosition[Math.floor(Math.random() * 3)],
+    initialXPosition[Math.floor(Math.random() * 4)]);
 var key = new Collectible(200, initialYPosition[Math.floor(Math.random() * 3)]);
-allEnemies.push(enemy);
-increaseLevel(3);
+//allEnemies.push(enemy);
+allCollectible.push(key);
+increaseLevel(5);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
