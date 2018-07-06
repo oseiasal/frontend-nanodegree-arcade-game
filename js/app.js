@@ -19,25 +19,18 @@ Enemy.prototype.update = function(dt) {
         this.y = initialYPosition[Math.floor(Math.random() * 3)];
         this.speed = Math.random() * 240 + 50;
     }
-    checkCollision(this);
 
-};
-
-var checkCollision = function(bug) {
-    // check for collision
-    // enemy-player collision resets the game
-    if (player.y + 130 >= bug.y + 90 &&
-        player.x + 25 <= bug.x + 88 &&
-        player.y + 70 <= bug.y + 135 &&
-        player.x + 76 >= bug.x + 10) {
-        console.log('Beteu!!!');
+    if (player.y + 130 >= this.y + 90 &&
+        player.x + 25 <= this.x + 88 &&
+        player.y + 70 <= this.y + 135 &&
+        player.x + 76 >= this.x + 10) {
         player.lives -= 1;
         player.lives < 0 ? player.lives = 0 : false;
         player.x = 200;
         player.y = 400;
     }
 
-}
+};
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -74,7 +67,6 @@ Player.prototype.update = function() {
     if (this.y < minBoardY) {
         this.y = maxBoardX;
         this.score += 1
-        console.log(`Chegou até a água!!`);
     }
     if (this.y > maxBoardY) {
         this.y = maxBoardX;
